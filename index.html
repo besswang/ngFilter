@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn" data-ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>angularjs</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet/less" href="site.less">
+    <script src="https://cdn.bootcss.com/jquery/2.1.3/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.js"></script>
+    <script src="https://cdn.bootcss.com/less.js/2.5.0/less.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.4.0/angular.js"></script>
+</head>
+<body class="container">
+<header class="page-header"><h1>过滤器</h1></header>
+
+<section ng-app="myApp" ng-controller="myCtrl">
+    <div>
+        <table class="table table-condensed">
+            <!--搜索-->
+            <tr class="text-right">
+                <td colspan="4">
+                    <input type="search" ng-model="key">：搜索
+                </td>
+            </tr>
+
+            <!--这里根据标题排序的话，就是英文从a开始排序-->
+            <!--<tr ng-repeat="b in books|orderBy:'Title'">-->
+
+            <!--允许追加多个过滤器，添加fliter筛选，这里的不能加引号，因为来自一个变量-->
+            <tr ng-repeat="b in books|orderBy:'Title'|filter:key">
+
+                <!--<td>{{b.Id}}</td>-->
+                <td>{{b.Title|lowercase}}</td>
+                <td>{{b.Author|uppercase}}</td>
+                <!--<td>{{b.Price|currency}}</td>-->
+                <!--除了上面一种写法，也可以自定义货币类型，并自动截取小数点-->
+                <td>{{b.Price|currency:"￥"}}</td>
+
+                <!--<td>{{b.PubDate|date:"yyyy-MM-dd"}}</td>-->
+                <!--除了上面一种写法，也可以改成中文的形式-->
+                <td>{{b.PubDate|date:"yyyy年MM月dd日"}}</td>
+
+                <td>{{b.Category.Name}}</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<script>
+    angular.module("myApp",[])
+        .controller("myCtrl",function ($scope,$http) {
+            //$http是一个异步的ajax
+            //首先读取json文件
+            $http.get("json/books.json").success(function (r) {
+                $scope.books = r;  //把结果存到books里
+            });
+
+        })
+</script>
+
+<footer class="navbar-fixed-bottom text-center">
+    <span>&copy; 2015</span>
+</footer>
+</body>
+</html>
