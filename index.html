@@ -52,7 +52,7 @@
         .controller("myCtrl",function ($scope,$http) {
             //$http是一个异步的ajax
             //首先读取json文件
-            $http.get("json/books.json").success(function (r) {
+            $http.get("books.json").success(function (r) {
                 $scope.books = r;  //把结果存到books里
             });
 
